@@ -5,8 +5,8 @@ Implementation of the TextRank algorithm
 import re
 from string import punctuation
 from math import log10
-from scipy.linalg import eig
 from scipy.sparse import csr_matrix
+from scipy.linalg import eig
 import numpy as np
 from nltk.tokenize import sent_tokenize, RegexpTokenizer
 from nltk.stem.snowball import EnglishStemmer
@@ -24,7 +24,7 @@ def textrank_weighted(graph, initial_value=None, damping=0.85):
 
     textrank_matrix = damping * adjacency_matrix.todense() + (1 - damping) * \
         probability_matrix
-    _, vecs = eig(textrank_matrix, left=True, right=False)
+    _, vecs = eig(textrank_matrix)
 
     return process_results(graph, vecs)
 
@@ -38,14 +38,14 @@ def build_adjacency_matrix(graph):
     data = []
     nodes = graph.get_nodes()
     length = len(nodes)
-    idxToNode = dict(zip(range(length), nodes))
+    idx_to_node = dict(zip(range(length), nodes))
 
     for i in range(length):
-        current_node = graph.get_node(idxToNode[i])
+        current_node = graph.get_node(idx_to_node[i])
         neighbors_sum = sum([current_node.get_weight(neighbor)
                              for neighbor in current_node.get_neighbors()])
         for j in range(length):
-            weight = current_node.get_weight(idxToNode[j])
+            weight = current_node.get_weight(idx_to_node[j])
             if i != j and weight != 0:
                 row.append(i)
                 col.append(j)
@@ -160,14 +160,13 @@ def _tokenize_sentences(text):
     regex = re.compile(r"[0-9]+")
     tokenized_sentences = [regex.sub("", sentence)
                            for sentence in tokenized_sentences]
-    # Strip all punctuation
+    ## Strip all punctuation
     regex = re.compile(str.format('([{0}])+', re.escape(punctuation)))
     tokenized_sentences = [regex.sub(" ", sentence)
                            for sentence in tokenized_sentences]
     # Strip stop words
-    tokenized_sentences = [[word for word in sentence if word not in stops]
-                           for sentence in tokenized_sentences]
-    # Stem the sentences
+    tokenized_sentences = list(map(lambda s: filter(lambda w: w not in stops, s.split()), tokenized_sentences))
+    ## Stem the sentences
     stemmer = EnglishStemmer()
     tokenized_sentences = [
         [stemmer.stem(word) for word in sentence] for sentence in tokenized_sentences]

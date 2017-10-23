@@ -9,3 +9,10 @@ class Sentence(object):
         self.token = token
         self.index = -1
         self.score = -1
+
+    def __str__(self):
+        return str.format("\nOriginal Text: {0}\n", self.text) + \
+               str.format("Tokenized Text: {0}", self.token)
+
+    def __repr__(self):
+        return self.__str__()
