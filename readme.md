@@ -1,6 +1,6 @@
-# TextRank 
+# Summit
 
-This is a re-implementation of TextRank done as a minor project for my research proficiency exam. TextRank is an extractive summarization technique in which sentences deemed important are extracted from the original text and output as a summarized text in their original order.
+This is an implementation of TextRank based summarization done as a minor project for my research proficiency exam. TextRank is used to compute an overall importance score on a per sentence basis. We then apply this calculated score for an extractive summarization technique in which sentences deemed important are extracted from the original text and output as a summarized text in their original order.
 
 The text is first transformed into a weighted, undirected graph. The weight of any given edge is equal to the similarity measure of the pair of sentences and the importance of a node is considered to be proportional to the sum of the weights of all of its incident edges. Edges with weight below a predetermined threshold are dropped altogether.
 

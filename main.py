@@ -3,7 +3,7 @@ Driver code for TextRank application. Run with -h for usage information.
 '''
 import sys
 import getopt
-from textrank.summarizer import summarize
+from summit.summarizer import summarize
 
 
 def get_arguments():

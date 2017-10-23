@@ -11,8 +11,8 @@ import numpy as np
 from nltk.tokenize import sent_tokenize, RegexpTokenizer
 from nltk.stem.snowball import EnglishStemmer
 from nltk.corpus import stopwords
-from textrank.sentence import Sentence
-from textrank.graph import Graph
+from summit.sentence import Sentence
+from summit.graph import Graph
 
 CONVERGENCE_THRESHOLD = 0.0001
 
@@ -94,7 +94,7 @@ def _get_similarity(one, two):
     words_one = one.split()
     words_two = two.split()
 
-    common_word_count = _count_common_words(words_a, words_b)
+    common_word_count = _count_common_words(words_one, words_two)
 
     log_a = log10(len(words_one))
     log_b = log10(len(words_two))
